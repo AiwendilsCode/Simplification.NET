@@ -1,41 +1,34 @@
-﻿using Simplification.Converters;
-using Simplification.Rust;
+﻿using Simplification.Rust;
 
 namespace Simplification.Algorithms
 {
     public class RdpAlgorithm : ISimplificationAlgorithm
     {
-        public static float[][] Simplify(float[][] data, double tolerance)
+        public double[][] Simplify(double[][] data, double tolerance)
         {
-            FfiArray? dataInArray = null;
-            FfiArray? simplified = null;
-
-            try
+            using (var converter = new ExternalArrayConverter(data))
             {
-                nint dataForSimplification = MarshalOperations.CopyDataFromFloatJaggedArrayToIntPtr(data);
+                ExternalArray output = RustBindings.simplify_rdp_ffi(converter.ExternalArray, tolerance);
 
-                dataInArray = new FfiArray()
-                {
-                    data = dataForSimplification,
-                    len = (nuint)data.Length
-                };
+                var outputArray = ExternalArrayConverter.ToDoubleArray(output);
 
-                simplified = RustBindings.simplify_rdp_ffi((FfiArray)dataInArray, tolerance);
+                RustBindings.drop_float_array(output);
 
-                float[][] result = MarshalOperations.CopyDataFromIntPtrToFloatJaggedArray(((FfiArray)simplified).data, (int)((FfiArray)simplified).len);
-
-                return result;
+                return outputArray;
             }
-            finally
+        }
+
+        public UIntPtr[] SimplifyIdx(double[][] data, double tolerance)
+        {
+            using (var converter = new ExternalArrayConverter(data))
             {
+                ExternalArray output = RustBindings.simplify_rdp_idx_ffi(converter.ExternalArray, tolerance);
 
-                if (dataInArray is not null)
-                    MarshalOperations.FreeIntPtr(((FfiArray)dataInArray).data, (int)((FfiArray)dataInArray).len);
+                var outputArray = ExternalArrayConverter.ToUIntPtrArray(output);
 
-                if (simplified is not null)
-                    RustBindings.drop_float_array((FfiArray)simplified!);
+                RustBindings.drop_usize_array(output);
 
-                Console.WriteLine("memory freed");
+                return outputArray;
             }
         }
     }

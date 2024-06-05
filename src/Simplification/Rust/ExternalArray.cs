@@ -3,9 +3,9 @@
 namespace Simplification.Rust
 {
     [StructLayout(LayoutKind.Sequential)]
-    internal unsafe struct FfiArray
+    internal struct ExternalArray
     {
-        public required nint data;
-        public required nuint len;
+        public IntPtr data;
+        public UIntPtr len;
     }
 }

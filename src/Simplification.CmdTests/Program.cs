@@ -3,13 +3,15 @@ using System.Globalization;
 
 string[] lines = File.ReadAllLines("generatedValuesSin.csv");
 
-float[][] data = new float[lines.Length - 1][];
+double[][] data = new double[1500][];
 
-for (int i = 1; i < lines.Length; i++) // skip first line
+for (int i = 1; i < 1501; i++) // skip first line
 {
-    data[i - 1] = [(i - 1) * 3600, float.Parse(lines[i], NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture)];
+    data[i - 1] = [(i - 1) * 3600, double.Parse(lines[i], NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture)];
 }
 
-float[][] simplified = RdpAlgorithm.Simplify(data, 0.15);
+ISimplificationAlgorithm algorithm = new RdpAlgorithm();
+
+UIntPtr[] _ = algorithm.SimplifyIdx(data, 0.005);
 
 ;

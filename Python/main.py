@@ -31,24 +31,31 @@ def read_float_values_from_csv(csv_filename, countValues = 2000):
 
 
 # Define CSV filename
-csv_filename = "generatedValuesSin.csv"
+#csv_filename = "generatedValuesSin.csv"
 
 # Read float values from CSV file
-float_values = read_float_values_from_csv(csv_filename)
+#float_values = read_float_values_from_csv(csv_filename)
 
-valuesToSymplify = [[index * 3600, value] for index, value in enumerate(float_values)]
+#valuesToSymplify = [[index * 3600, value] for index, value in enumerate(float_values)]
 
-print("RDP algorithm:")
-print(simplify_coords(valuesFromTest, 0))
-print("Visvalingam-Whyatt algorithm:")
-simplified = [i[1] for i in simplify_coords(valuesToSymplify, 0.15)]
+#print("RDP algorithm:")
+#print(simplify_coords(valuesFromTest, 0))
+#print("Visvalingam-Whyatt algorithm:")
+#simplified = [i[1] for i in simplify_coords(valuesToSymplify, 0.15)]
 
-print(f"count of values: {len(simplified)}")
+#print(f"count of values: {len(simplified)}")
 
 # Plot the float values
-plt.plot(simplified)
-plt.title('Float Values Plot')
-plt.xlabel('Index')
-plt.ylabel('Float Value')
-plt.grid(True)
-plt.show()
+#plt.plot(simplified)
+#plt.title('Float Values Plot')
+#plt.xlabel('Index')
+#plt.ylabel('Float Value')
+#plt.grid(True)
+#plt.show()
+
+print(simplify_coords_vw_idx([
+    [5.0, 2.0],
+    [3.0, 8.0],
+    [6.0, 20.0],
+    [7.0, 25.0],
+    [10.0, 10.0]], 30.0))
