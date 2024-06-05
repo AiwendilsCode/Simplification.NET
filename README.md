@@ -28,3 +28,6 @@ simplifiedIndices = visvAlgorithm.SimplifyIdx(input, 1.0); // returns simplified
 simplified = ((VisvalingamWhyattAlgorithm)visvAlgorithm)
     .PreserveTopologySimplify(input, 1.0); // returns simplified data, while preserving topology
 ```
+
+## Package
+https://www.nuget.org/packages/Simplification/1.0.0
