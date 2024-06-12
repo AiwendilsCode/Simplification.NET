@@ -29,5 +29,25 @@ simplified = ((VisvalingamWhyattAlgorithm)visvAlgorithm)
     .PreserveTopologySimplify(input, 1.0); // returns simplified data, while preserving topology
 ```
 
+## Benchmarks
+### Ramer-Douglas Peucker algorithm
+![RDP_benchmark](images/RDP_benchmark.png)
+### Visvalingam-Whyatt algorithm
+![Visvalingam_benchmark](images/Visvaling_benchmark.png)
+
+## Simplified line
+### Before simplification
+![Line_before_simplification](images/LineBeforeSimplification.png)
+
+### After simplification
+RDP 5 tolerance
+![RDP_simplified](images/RDP.png)
+
+Visvalingam 10 tolerance
+![Visvalingam_simplified](images/Visvalingam.png)
+
+Visvalingam preserve topology 10 tolerance
+![VisvalingamPreserveTopology_simplified](images/VisvalingamPreserveTopology.png)
+
 ## Package
 https://www.nuget.org/packages/Simplification/1.0.0
