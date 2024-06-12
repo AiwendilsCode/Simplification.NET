@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Simplification.Rust
 {
@@ -16,37 +14,40 @@ namespace Simplification.Rust
 
         private ExternalArray ToExternalArray(double[][] data)
         {
-            int dataLengthInBytes = data.Length * 2 * sizeof(double);
-            allocatedMemory = Marshal.AllocHGlobal(dataLengthInBytes);
-
-            var arrayToCopyFrom = new byte[dataLengthInBytes];
-            int indexInByteArray = 0;
-
-            for (int i = 0; i < data.Length; i++)
+            try
             {
-                for (int j = 0; j < data[i].Length; j++)
-                {
-                    byte[] bytes = BitConverter.GetBytes(data[i][j]);
+                allocatedMemory = Marshal.AllocHGlobal(data.Length * 2 * sizeof(double));
 
-                    for (int k = 0; k < bytes.Length; k++)
+                int offset = 0;
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    for (int j = 0; j < data[i].Length; j++)
                     {
-                        arrayToCopyFrom[indexInByteArray++] = bytes[k];
+                        byte[] bytes = BitConverter.GetBytes(data[i][j]);
+
+                        for (int k = 0; k < bytes.Length; k++)
+                        {
+                            Marshal.WriteByte(allocatedMemory + offset++, bytes[k]);
+                        }
                     }
                 }
+
+                return new() { data = allocatedMemory, len = (UIntPtr)data.Length };
             }
-
-            Marshal.Copy(arrayToCopyFrom, 0, allocatedMemory, dataLengthInBytes);
-
-            return new() { data = allocatedMemory, len = (UIntPtr)data.Length };
+            catch (Exception ex) 
+            {
+                Dispose();
+                throw ex;
+            }
         }
 
         public static double[][] ToDoubleArray(ExternalArray array)
         {
-            var outputByteArray = new byte[array.len * 2 * sizeof(double)];
-            Marshal.Copy(array.data, outputByteArray, 0, outputByteArray.Length);
-
             var outputArray = new double[array.len][];
-            int indexInByteArray = 0;
+
+            var buffer = new byte[8];
+            int offset = 0;
 
             for (int i = 0; i < outputArray.Length; i++)
             {
@@ -54,11 +55,16 @@ namespace Simplification.Rust
 
                 for (int j = 0; j < 2; j++)
                 {
-                    double coord = BitConverter.ToDouble(
-                        outputByteArray[indexInByteArray..(indexInByteArray + sizeof(double))], 0);
-                    indexInByteArray += sizeof(double);
+                    buffer[0] = Marshal.ReadByte(array.data, offset++);
+                    buffer[1] = Marshal.ReadByte(array.data, offset++);
+                    buffer[2] = Marshal.ReadByte(array.data, offset++);
+                    buffer[3] = Marshal.ReadByte(array.data, offset++);
+                    buffer[4] = Marshal.ReadByte(array.data, offset++);
+                    buffer[5] = Marshal.ReadByte(array.data, offset++);
+                    buffer[6] = Marshal.ReadByte(array.data, offset++);
+                    buffer[7] = Marshal.ReadByte(array.data, offset++);
 
-                    outputArray[i][j] = coord;
+                    outputArray[i][j] = BitConverter.ToDouble(buffer, 0);
                 }
             }
 
@@ -67,24 +73,22 @@ namespace Simplification.Rust
 
         public static UIntPtr[] ToUIntPtrArray(ExternalArray array)
         {
-            int sizeOfUIntPtr = UIntPtr.Size;
-            var outputByteArray = new byte[(long)array.len * sizeOfUIntPtr];
-            Marshal.Copy(array.data, outputByteArray, 0, outputByteArray.Length);
-
             var outputArray = new UIntPtr[array.len];
-            int indexInByteArray = 0;
+            int offset = 0;
 
             for (int i = 0; i < outputArray.Length; i++)
             {
-                outputArray[i] = sizeOfUIntPtr switch
+                switch (UIntPtr.Size)
                 {
-                    4 => (UIntPtr)BitConverter.ToUInt32( // 32-bit
-                        outputByteArray[indexInByteArray..(indexInByteArray + 4)], 0),
-                    8 => (UIntPtr)BitConverter.ToUInt64( // 64-bit
-                        outputByteArray[indexInByteArray..(indexInByteArray + 8)], 0)
-                };
-
-                indexInByteArray += sizeOfUIntPtr;
+                    case 4: // 32-bit
+                        outputArray[i] = (UIntPtr)Marshal.ReadInt32(array.data, offset);
+                        offset += 4;
+                        break;
+                    case 8: // 64-bit
+                        outputArray[i] = (UIntPtr)Marshal.ReadInt64(array.data, offset);
+                        offset += 8;
+                        break;
+                }
             }
 
             return outputArray;
@@ -95,6 +99,7 @@ namespace Simplification.Rust
             if (allocatedMemory != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(allocatedMemory);
+                allocatedMemory = IntPtr.Zero;
             }
         }
     }

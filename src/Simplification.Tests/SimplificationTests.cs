@@ -76,7 +76,8 @@ namespace Simplification.Tests
                 [3.0, 8.0],
                 [6.0, 20.0],
                 [7.0, 25.0],
-                [10.0, 10.0]];
+                [10.0, 10.0]
+            ];
             VisvalingamWhyattAlgorithm algorithm = new();
 
             // Act
