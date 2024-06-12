@@ -50,4 +50,4 @@ Visvalingam preserve topology 10 tolerance
 ![VisvalingamPreserveTopology_simplified](images/VisvalingamPreserveTopology.png)
 
 ## Package
-https://www.nuget.org/packages/Simplification/1.0.0
+https://www.nuget.org/packages/Simplification/1.0.2
