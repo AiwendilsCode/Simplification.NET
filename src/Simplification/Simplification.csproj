@@ -10,7 +10,7 @@
     <Authors>Aiwendil</Authors>
     <Description>Ramer-Douglas-Peucker and Visvalingam-Whyatt algorithms in C#.</Description>
     <Copyright>Copyright (c) Aiwendil 2024</Copyright>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>README-nuget.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/AiwendilsCode/Simplification.NET</RepositoryUrl>
     <PackageTags>Simplification;net8;visvalingam-whyatt;ramer-douglas-peucker;algorithm;rdp</PackageTags>
     <PackageReleaseNotes>- Add VisvalingamWhyattAlgorithm.SimplifyMemOptimized method. </PackageReleaseNotes>
@@ -57,7 +57,7 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\..\README.md">
+    <None Include="..\..\README-nuget.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
