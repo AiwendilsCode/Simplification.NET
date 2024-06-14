@@ -94,22 +94,5 @@ BenchmarkDotNet v0.13.12, Windows 10 (10.0.19045.4529/22H2/2022Update)
 | SimplifyVwPT_vals_12000_toler_0_5  | 20,077.673 μs | 293.1432 μs | 259.8638 μs | 20,038.420 μs |  62.5000 |        - |       - | 1004.39 KB |
 | SimplifyVwOpt_vals_12000_toler_0_5 |  4,059.296 μs |  78.3011 μs |  80.4094 μs |  4,053.321 μs | 140.6250 | 140.6250 | 23.4375 |   93.83 KB |
 
-## Simplified line
-### Before simplification
-![Line_before_simplification](images/LineBeforeSimplification.png)
-
-### After simplification
-RDP 5 tolerance
-![RDP_simplified](images/RDP.png)
-
-Visvalingam 10 tolerance
-![Visvalingam_simplified](images/Visvalingam.png)
-
-Visvalingam preserve topology 10 tolerance
-![VisvalingamPreserveTopology_simplified](images/VisvalingamPreserveTopology.png)
-
-Visvalingam memory optimized 10 tolerance
-![VisvalingamMemOpt_simplified](images/VisvalingamMemOpt.png)
-
 ## Package
 https://www.nuget.org/packages/Simplification/1.1.0
