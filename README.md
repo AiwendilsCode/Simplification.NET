@@ -103,7 +103,7 @@ Visvalingam preserve topology 10 tolerance
 ![VisvalingamPreserveTopology_simplified](images/VisvalingamPreserveTopology.png)
 
 Visvalingam memory optimized 10 tolerance
-![VisvalingamPreserveTopology_simplified](images/VisvalingamMemOpt.png)
+![VisvalingamMemOpt_simplified](images/VisvalingamMemOpt.png)
 
 ## Package
 https://www.nuget.org/packages/Simplification/1.0.2
