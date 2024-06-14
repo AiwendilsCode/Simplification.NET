@@ -27,7 +27,13 @@ simplifiedIndices = visvAlgorithm.SimplifyIdx(input, 1.0); // returns simplified
 
 simplified = ((VisvalingamWhyattAlgorithm)visvAlgorithm)
     .PreserveTopologySimplify(input, 1.0); // returns simplified data, while preserving topology
+	
+simplified = ((VisvalingamWhyattAlgorithm)visvAlgorithm)
+    .SimplifyMemOptimized(input, 1.0); // returns simplified data but uses less memory
 ```
+
+## Warning
+Even though Visvalingam.Simplify and Visvalingam.SimplifyMemOptimized use the same algorithm output is different, maybe I will fix this in the future. But both methods get thing done properly, SimplifyMemOpt is more aggresive.
 
 ## Benchmarks
 
