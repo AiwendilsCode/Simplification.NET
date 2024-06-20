@@ -27,6 +27,6 @@ class LineVisualizer:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    json_file = "Python/RDP_simplified.json"  # Replace with your JSON file path
+    json_file = "visvalingamMemOpt.json"  # Replace with your JSON file path
     app = LineVisualizer(root, json_file)
     root.mainloop()
